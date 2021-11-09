@@ -34,8 +34,7 @@
 //
 // Related Topics 递归 链表 👍 1883 👎 0
 
-
-package leetcode.editor.cn.hot100.unfinished;
+package leetcode.editor.cn.hot100.finished;
 /**
  * @author lucas9
  */
@@ -44,7 +43,7 @@ public class 合并两个有序链表 {
         Solution solution = new 合并两个有序链表().new Solution();
         // DO TEST
     }
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
         ListNode() {}
@@ -70,8 +69,34 @@ public class 合并两个有序链表 {
             if (null == l2) {
                 return l1;
             }
-            ListNode head = l1, ans = head;
+            ListNode head, ans;
+            if (l1.val < l2.val) {
+                ans = head = l1;
+                l1 = l1.next;
+            } else {
+                ans = head = l2;
+                l2 = l2.next;
+            }
             while (null != l1 && null != l2) {
+                if (l1.val < l2.val) {
+                    head.next = l1;
+                    head = head.next;
+                    l1 = l1.next;
+                } else {
+                    head.next = l2;
+                    head = head.next;
+                    l2 = l2.next;
+                }
+            }
+            while (null != l1) {
+                head.next = l1;
+                head = head.next;
+                l1 = l1.next;
+            }
+            while (null != l2) {
+                head.next = l2;
+                head = head.next;
+                l2 = l2.next;
             }
             return ans;
         }

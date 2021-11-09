@@ -30,7 +30,10 @@
 // Related Topics 树 深度优先搜索 广度优先搜索 二叉树 👍 1519 👎 0
 
 
-package leetcode.editor.cn.hot100.unfinished;
+package leetcode.editor.cn.hot100.finished;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * @author lucas
  * @Date 2021-09-06 10:10:40
@@ -38,9 +41,23 @@ package leetcode.editor.cn.hot100.unfinished;
 public class 对称二叉树 {
     public static void main(String[] args) {
         Solution solution = new 对称二叉树().new Solution();
-        // DO TEST
+        // DO TEST [1,2,2,3,4,4,3]
+        TreeNode t1 = new TreeNode(1);
+        TreeNode t2 = new TreeNode(2);
+        TreeNode t3 = new TreeNode(2);
+        TreeNode t4 = null;
+        TreeNode t5 = new TreeNode(3);
+        TreeNode t6 = null;
+        TreeNode t7 = new TreeNode(3);
+        t1.left = t2;
+        t1.right = t3;
+        t2.left = t4;
+        t2.right = t5;
+        t3.left = t6;
+        t3.right = t7;
+        System.out.println(solution.check(t1));
     }
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -70,7 +87,37 @@ public class 对称二叉树 {
      */
     class Solution {
         public boolean isSymmetric(TreeNode root) {
+            return check(root);
+        }
+        public boolean check(TreeNode root) {
+            Queue<TreeNode> q = new LinkedList<>();
+            TreeNode t1 = root, t2 = root;
+            q.offer(t1);
+            q.offer(t2);
+            while (!q.isEmpty()) {
+                t1 = q.poll();
+                t2 = q.poll();
+                if (null == t1 && null == t2) {
+                    continue;
+                }
+                if (null == t1 || null == t2 || t1.val != t2.val) {
+                    return false;
+                }
+                q.offer(t1.left);
+                q.offer(t2.right);
+                q.offer(t1.right);
+                q.offer(t2.left);
+            }
             return true;
+        }
+        public boolean check(TreeNode p, TreeNode q) {
+            if (p == null && q == null) {
+                return true;
+            }
+            if (p == null || q == null) {
+                return false;
+            }
+            return p.val == q.val && check(p.left, q.right) && check(p.right, q.left);
         }
     }
     //leetcode submit region end(Prohibit modification and deletion)
